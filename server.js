@@ -5,19 +5,21 @@ const mysql = require('mysql2');
 
 const app = express();
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 3306,
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME || 'pricepeak'
+  database: process.env.DB_NAME || 'pricepeak',
+  waitForConnections:true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('Database connection failed:', err);
-    process.exit(1); // Exit if DB fails — no point running without it
-  }
-  console.log('Connected to MySQL');
+db.on('error', (err) => {
+  console.error('DB error:', err.code);
 });
 
 app.get('/', (req, res) => {
@@ -29,11 +31,16 @@ app.get('/search', (req, res) => {
   if (!q) return res.status(400).json({ error: 'Missing query param: q' });
 
   const query = `
-    SELECT p.name, pr.website, pr.price, pr.link
-    FROM products p
-    JOIN prices pr ON p.id = pr.product_id
-    WHERE p.name LIKE ?
-  `;
+  SELECT 
+    p.product_name,
+    pl.platform_name,
+    l.price
+  FROM Listings l
+  JOIN Products p ON l.product_id = p.product_id
+  JOIN Platforms pl ON l.platform_id = pl.platform_id
+  WHERE p.product_name LIKE ?
+  ORDER BY l.price ASC
+`;
 
   db.query(query, [`%${q}%`], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
