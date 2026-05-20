@@ -1,9 +1,11 @@
-require('dotenv').config();
-
-const express = require('express');
-const mysql = require('mysql2');
-
+import 'dotenv/config';
+import express from 'express';
+import mysql from 'mysql2';
+import cors from 'cors';
 const app = express();
+
+app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(express.json())
 
 const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
