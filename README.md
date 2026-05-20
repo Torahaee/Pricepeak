@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚀 PricePeak AI
 
 AI-powered smart shopping and price comparison platform.
@@ -145,3 +146,19 @@ src/
 # 👨‍💻 Developed By
 
 RADA 
+=======
+# 💰 Pricepeak
+A price tracking app that monitors e-commerce product prices and alerts users when their target price is reached.
+
+## 🚧 Status
+Backend logic is complete. Frontend is currently under development.
+
+## ⚙️ Features
+- Track product prices over time
+- Set target price thresholds
+- Automated alerts when price drops
+- Price history storage and retrieval
+
+## 🛠️ Stack
+JavaScript • Node.js • *(Frontend — Coming Soon)*
+>>>>>>> 30a28d53ad25ec77f78c92de01df2a9e29d7b8ed

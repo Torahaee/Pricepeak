@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -32,3 +33,7 @@ dist-ssr
 
 # OS files
 Thumbs.db
+=======
+.env 
+node_modules/
+>>>>>>> 30a28d53ad25ec77f78c92de01df2a9e29d7b8ed
